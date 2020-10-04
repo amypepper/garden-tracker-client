@@ -1,0 +1,10 @@
+.App-header {
+  padding-top: 100px;
+  padding-bottom: 10px;
+}
+
+.App-main section {
+  padding: 40px 5px;
+  margin: 5px 0;
+  border-bottom: solid 2px gray;
+}

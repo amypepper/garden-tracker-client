@@ -1,0 +1,36 @@
+.navbar-top {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.navbar-top * {
+  margin-right: 20px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: green;
+}
+
+.login-button {
+  width: 75px;
+}
+
+.navbar-email,
+.navbar-pw {
+  display: none;
+}
+
+@media screen and (min-width: 845px) {
+  .navbar-pw,
+  .navbar-email {
+    display: flex;
+  }
+}
