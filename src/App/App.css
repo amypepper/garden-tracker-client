@@ -1,10 +1,172 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .App-header {
   padding-top: 100px;
   padding-bottom: 10px;
+  border-bottom: solid 2px grey;
 }
 
 .App-main section {
   padding: 40px 5px;
-  margin: 5px 0;
   border-bottom: solid 2px gray;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: #444;
+  text-align: center;
+  line-height: 1.5;
+}
+
+nav,
+footer {
+  display: flex;
+  align-items: flex-start;
+  padding: 1% 0;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+header {
+  padding: 12% 0;
+}
+
+main,
+section {
+  width: 100vw;
+}
+.flex-wrapper-column,
+ul.flex-wrapper-column,
+.flex-wrapper-column.folder-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flex-wrapper-row {
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+
+fieldset {
+  border: none;
+}
+
+label {
+  min-height: 50px;
+  margin: 15px;
+}
+input {
+  min-height: 50px;
+  width: 200px;
+}
+
+.confirm-password-label {
+  padding-top: 19.5px;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+label.edit-category,
+label.add-category {
+  padding: 10px;
+  margin: 5px;
+}
+
+.active {
+  background-color: white;
+}
+
+.sidebar,
+section.sidebar {
+  padding: 0 5px;
+  border: none;
+  background-color: white;
+}
+
+.sidebar.links,
+.sidebar.links a {
+  background-color: rgb(11, 90, 57);
+  color: white;
+  padding: 2px;
+}
+
+.sidebar-wrapper {
+  border: 3px solid grey;
+}
+
+.accordion {
+  font-size: 1.5rem;
+  padding-bottom: 10px;
+  border: 2px solid black;
+  width: 100vw;
+}
+
+.accordion button {
+  font-size: 1rem;
+}
+
+section.folder-nav {
+  padding: 10px 5px 0 5px;
+  margin: 0;
+  border: none;
+}
+
+h3.folder-nav {
+  padding: 5px;
+  margin: 0;
+}
+.expanded button,
+.activity-button {
+  margin: 10px;
+  width: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: teal;
+  margin: 0 10px;
+}
+
+ul.sidebar {
+  margin: 0;
+}
+
+.footer {
+  background-color: rgb(11, 90, 57);
+  padding: 5px;
+  margin: 0;
+  width: 100vw;
+  color: white;
+}
+
+.footer a {
+  color: white;
+}
+
+.category-header {
+  background-color: mediumaquamarine;
+  height: 100px;
+  padding: 30px 10px;
 }

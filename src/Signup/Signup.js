@@ -8,7 +8,7 @@ export default class extends React.Component {
         <h3>Get Started</h3>
         <form className="form" aria-label="signup-form">
           <fieldset aria-label="email">
-            <div className="flex-wrapper">
+            <div className="flex-wrapper-column">
               <label className="signup-email" htmlFor="new-email">
                 email
               </label>
@@ -16,7 +16,7 @@ export default class extends React.Component {
             </div>
           </fieldset>
           <fieldset aria-label="password">
-            <div className="flex-wrapper">
+            <div className="flex-wrapper-column">
               <label htmlFor="new-password" className="signup-pw">
                 password
               </label>
