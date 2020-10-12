@@ -5,7 +5,7 @@ export default function Landing() {
     <>
       <section>
         <h3>Track your activities</h3>
-        <p>[placeholder for screenshot of the activity list view]</p>
+
         <p>
           View a history of your plant care activities by logging in and
           clicking on "View all activities."
@@ -18,7 +18,7 @@ export default function Landing() {
 
       <section>
         <h3>Organize your activities</h3>
-        <p>[placeholder for category list view]</p>
+
         <p>
           Sort your activities into categories; you can add, remove or rename
           categories at any time.

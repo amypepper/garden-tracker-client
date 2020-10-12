@@ -7,8 +7,8 @@ export default class Navbar extends React.Component {
       <nav className="navbar" role="navigation">
         <ul className="navbar-top">
           <li className="navbar-email">
-            <label htmlFor="email">Email</label>
-            <input id="email" type="email" />
+            <label htmlFor="navbar-email">Email</label>
+            <input id="navbar-email" type="email" />
           </li>
           <li className="navbar-pw">
             <label htmlFor="password">Password</label>

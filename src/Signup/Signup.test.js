@@ -9,12 +9,12 @@ import Signup from "./Signup";
 Enzyme.configure({ adapter: new Adapter() });
 
 it("renders without errors", () => {
-  const wrSignuper = mount(
+  const wrapper = mount(
     <BrowserRouter initialEntries={["/"]}>
       <Signup />
     </BrowserRouter>
   );
   const div = document.createElement("div");
-  ReactDOM.render(wrSignuper, div);
+  ReactDOM.render(wrapper, div);
   ReactDOM.unmountComponentAtNode(div);
 });

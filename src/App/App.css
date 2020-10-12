@@ -67,6 +67,11 @@ fieldset {
   border: none;
 }
 
+fieldset.activity-form,
+fieldset.category-form {
+  margin-bottom: 30px;
+}
+
 label {
   min-height: 50px;
   margin: 15px;
@@ -169,4 +174,8 @@ ul.sidebar {
   background-color: mediumaquamarine;
   height: 100px;
   padding: 30px 10px;
+}
+
+.category-options {
+  min-height: 40px;
 }

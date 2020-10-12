@@ -9,12 +9,12 @@ import Navbar from "./Navbar";
 Enzyme.configure({ adapter: new Adapter() });
 
 it("renders without errors", () => {
-  const wrNavbarer = mount(
+  const wrapper = mount(
     <BrowserRouter initialEntries={["/"]}>
       <Navbar />
     </BrowserRouter>
   );
   const div = document.createElement("div");
-  ReactDOM.render(wrNavbarer, div);
+  ReactDOM.render(wrapper, div);
   ReactDOM.unmountComponentAtNode(div);
 });
