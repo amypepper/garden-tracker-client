@@ -25,6 +25,7 @@ body {
   color: #444;
   text-align: center;
   line-height: 1.5;
+  min-height: 100vh;
 }
 
 nav,
@@ -164,6 +165,7 @@ ul.sidebar {
   margin: 0;
   width: 100vw;
   color: white;
+  align-items: flex-end;
 }
 
 .footer a {
