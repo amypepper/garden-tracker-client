@@ -21,11 +21,11 @@ export default class App extends React.Component {
         Accept: "application/json",
       },
     };
-    fetch(`${API_BASE_URL}/activities`, options)
+    fetch(`${API_BASE_URL}/api/activities`, options)
       .then((res) => res.json())
       .then((activities) => this.setState({ activities }));
 
-    fetch(`${API_BASE_URL}/categories`, options)
+    fetch(`${API_BASE_URL}/api/categories`, options)
       .then((res) => res.json())
       .then((categories) => this.setState({ categories }));
   }
