@@ -53,10 +53,6 @@ const categories = [
 
 export default class App extends React.Component {
   render() {
-    const category = categories.find(
-      (category) => category.id === activities[1].categoryId
-    );
-
     return (
       <div className="App">
         <header className="App-header">
@@ -307,54 +303,30 @@ export default class App extends React.Component {
 
           {/********************* ACTIVITY PAGES **************************/}
 
-          <Route path="/activities/1">
-            <section>
-              <h3>{activities[0].title}</h3>
-              <p>Date: {activities[0].date}</p>
-              <p>Notes: {activities[0].description}</p>
-              <p>Category: {category.title}</p>
-              <Link to="/edit/activities/1">
-                <button>Edit</button>
-              </Link>
-              <button>Delete</button>
-            </section>
-          </Route>
-          <Route path="/activities/2">
-            <section>
-              <h3>{activities[1].title}</h3>
-              <p>Date: {activities[1].date}</p>
-              <p>Notes: {activities[1].description}</p>
-              <p>Category: {category.title}</p>
-              <Link to="/edit/activities/2">
-                <button>Edit</button>
-              </Link>
-              <button>Delete</button>
-            </section>
-          </Route>
-          <Route path="/activities/3">
-            <section>
-              <h3>{activities[2].title}</h3>
-              <p>Date: {activities[2].date}</p>
-              <p>Notes: {activities[2].description}</p>
-              <p>Category: {category.title}</p>
-              <Link to="/edit/activities/3">
-                <button>Edit</button>
-              </Link>
-              <button>Delete</button>
-            </section>
-          </Route>
-          <Route path="/activities/4">
-            <section>
-              <h3>{activities[3].title}</h3>
-              <p>Date: {activities[3].date}</p>
-              <p>Notes: {activities[3].description}</p>
-              <p>Category: {category.title}</p>
-              <Link to="/edit/activities/4">
-                <button>Edit</button>
-              </Link>
-              <button>Delete</button>
-            </section>
-          </Route>
+          {activities.map((activity) => {
+            return (
+              <Route path={`/activities/${activity.id}`}>
+                <section>
+                  <h3>{activity.title}</h3>
+                  <p>Date: {activity.date}</p>
+                  <p>Notes: {activity.description}</p>
+                  <p>
+                    Category:{" "}
+                    {() => {
+                      const targetCategory = categories.find(
+                        (category) => category.id === activity.categoryId
+                      );
+                      return targetCategory.title;
+                    }}
+                  </p>
+                  <Link to={`/edit/activities/${activity.id}`}>
+                    <button>Edit</button>
+                  </Link>
+                  <button>Delete</button>
+                </section>
+              </Route>
+            );
+          })}
 
           <Route exact path="/add/activities">
             <section>
@@ -451,12 +423,19 @@ export default class App extends React.Component {
                     />
                     <label htmlFor="edit-date">Date</label>
                     <input type="date" id="edit-date" value="2020-09-22" />
+                    <label htmlFor="edit-time">Time of Day (optional)</label>
+                    <select id="edit-time" value="">
+                      <option value="Morning">Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                      <option value="Evening">Evening</option>
+                    </select>
+
                     <label htmlFor="edit-note">Notes (optional)</label>
                     <textarea id="edit-note" cols="30" rows="10"></textarea>
 
-                    <label htmlFor="category">Category</label>
+                    <label htmlFor="edit-category">Category (optional)</label>
                     <select
-                      id="category"
+                      id="edit-category"
                       className="category-options"
                       value="Watering"
                     >
@@ -464,6 +443,8 @@ export default class App extends React.Component {
                       <option value="Feeding">Feeding</option>
                       <option value="Pruning">Weeding</option>
                     </select>
+                    <label htmlFor="edit-plants">Plants (optional) </label>
+                    <input type="text" id="edit-plants" />
                   </div>
                 </fieldset>
 

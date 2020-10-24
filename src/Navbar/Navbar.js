@@ -1,5 +1,6 @@
 import React from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 export default class Navbar extends React.Component {
   render() {
@@ -7,12 +8,16 @@ export default class Navbar extends React.Component {
       <nav className="navbar" role="navigation">
         <ul className="navbar-top">
           <li className="navbar-email">
-            <label htmlFor="navbar-email">Email</label>
-            <input id="navbar-email" type="email" />
+            <label htmlFor="login-email">Email</label>
+            <input className="navbar-input" id="login-email" type="email" />
           </li>
           <li className="navbar-pw">
-            <label htmlFor="password">Password</label>
-            <input id="password" type="password" />
+            <label htmlFor="login-password">Password</label>
+            <input
+              className="navbar-input"
+              id="login-password"
+              type="password"
+            />
           </li>
           <li>
             <button
@@ -31,6 +36,11 @@ export default class Navbar extends React.Component {
             >
               Log Out
             </button>
+          </li>
+          <li>
+            <Link to="/dashboard">
+              <button>Dashboard</button>
+            </Link>
           </li>
         </ul>
       </nav>
