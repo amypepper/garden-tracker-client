@@ -20,12 +20,12 @@ export default function Landing() {
         <h3>Organize your activities</h3>
 
         <p>
-          Sort your activities into categories; you can add, remove or rename
-          categories at any time.
+          Sort your activities into categories; you can add or remove categories
+          at any time.
         </p>
         <p>
           View all notes in a given category by clicking on the category name in
-          the lefthand sidebar.
+          your dashboard.
         </p>
       </section>
     </>
