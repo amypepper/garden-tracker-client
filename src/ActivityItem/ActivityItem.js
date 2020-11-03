@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./ActivityItem.css";
 import Context from "../Context";
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 export default class ActivityItem extends React.Component {
   static contextType = Context;
@@ -38,7 +39,10 @@ export default class ActivityItem extends React.Component {
           <span className="bold-span">Category</span>: {this.getCategoryName()}
         </p>
 
-        <button className="activity-button">Delete</button>
+        <DeleteButton
+          activity={{ ...this.props }}
+          history={{ ...this.props.history }}
+        />
       </li>
     );
   }

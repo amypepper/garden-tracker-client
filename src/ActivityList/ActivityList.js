@@ -16,11 +16,19 @@ export default class ActivityList extends React.Component {
             activity.categoryid === Number(this.props.match.params.categoryid)
         ) || [];
       return filteredActivities.map((activity, i) => (
-        <ActivityItem key={i} {...activity} />
+        <ActivityItem
+          key={i}
+          {...activity}
+          history={{ ...this.props.history }}
+        />
       ));
     } else {
       return activities.map((activity, i) => (
-        <ActivityItem key={i} {...activity} />
+        <ActivityItem
+          key={i}
+          {...activity}
+          history={{ ...this.props.history }}
+        />
       ));
     }
   };

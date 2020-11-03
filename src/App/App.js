@@ -10,6 +10,7 @@ import data from "../dummy-data";
 import Landing from "../Landing/Landing";
 import Navbar from "../Navbar/Navbar";
 import Signup from "../Signup/Signup";
+import Login from "../Login/Login";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import ActivityList from "../ActivityList/ActivityList";
 import ActivityItem from "../ActivityItem/ActivityItem";
@@ -21,12 +22,29 @@ export default class App extends React.Component {
     activities: [...data.activities],
     categories: [...data.categories],
 
-    addCategory: (newCategory) => {
-      this.setState({ categories: [...this.state.categories, newCategory] });
-    },
-
     addActivity: (newActivity) => {
-      this.setState({ activities: [...this.state.activities, newActivity] });
+      return this.setState({
+        activities: [...this.state.activities, newActivity],
+      });
+    },
+    addCategory: (newCategory) => {
+      return this.setState({
+        categories: [...this.state.categories, newCategory],
+      });
+    },
+    deleteActivity: (activityId) => {
+      return this.setState({
+        activities: this.state.activities.filter(
+          (activity) => activity.id !== activityId
+        ),
+      });
+    },
+    deleteCategory: (categoryId) => {
+      return this.setState({
+        categories: this.state.categories.filter(
+          (category) => category.id !== categoryId
+        ),
+      });
     },
   };
 
@@ -63,25 +81,13 @@ export default class App extends React.Component {
       <Context.Provider value={this.state}>
         <div className="App">
           <header className="App-header">
-            {[
-              "/",
-              "/dashboard",
-              "/categories/:categoryid",
-              "/add/categories",
-              "/activities/:activityid",
-              "/add/activities",
-            ].map((path, i) => (
-              <Route exact key={i} path={path} component={Navbar} />
-            ))}
-            <h1>Garden Tracker</h1>
-            <h2>Help your plants thrive.</h2>
+            <Route path="/" component={Navbar} />
           </header>
 
           <main className="App-main">
             <Route exact path="/" component={Landing} />
-            <Route exact path="/" component={Signup} />
-
-            {/************************* DASHBOARD ********************************/}
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
             <Route path="/dashboard" component={Dashboard} />
 
             {/********************* CATEGORY PAGES **************************/}
@@ -138,7 +144,9 @@ export default class App extends React.Component {
                       activity.id === Number(rProps.match.params.activityid)
                   ) || [];
                 if (selectedActivity) {
-                  return <ActivityItem {...selectedActivity} />;
+                  return <ActivityItem {...selectedActivity} {...rProps} />;
+                } else {
+                  return null;
                 }
               }}
             />

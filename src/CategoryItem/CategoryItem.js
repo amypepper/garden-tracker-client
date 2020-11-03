@@ -1,6 +1,7 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
+
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 export default class CategoryItem extends React.Component {
   render() {
@@ -10,7 +11,10 @@ export default class CategoryItem extends React.Component {
           <h4>{this.props.title}</h4>
         </Link>
 
-        <button>Delete</button>
+        <DeleteButton
+          category={{ ...this.props }}
+          history={{ ...this.props.history }}
+        />
       </li>
     );
   }

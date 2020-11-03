@@ -8,7 +8,7 @@ import Context from "../Context";
 export default class Dashboard extends React.Component {
   static contextType = Context;
   render() {
-    const { categories = [] } = this.context || [];
+    const { categories = [] } = this.context || {};
     return (
       <>
         <div className="flex-wrapper-column sidebar-wrapper dashboard">

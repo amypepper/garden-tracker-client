@@ -1,4 +1,6 @@
 import React from "react";
+
+import { API_BASE_URL, API_TOKEN } from "../config";
 import Context from "../Context";
 import ValidationError from "../ValidationError";
 
@@ -6,36 +8,64 @@ export default class AddCategory extends React.Component {
   static contextType = Context;
 
   state = {
-    category: {
-      value: "",
-      touched: false,
-    },
+    title: "",
+    userid: null,
+    touched: false,
   };
 
   clearValues = () => {
     this.setState({
-      category: { value: "", touched: false },
+      title: "",
+      userid: null,
+      touched: false,
     });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { category } = this.state;
+    const { title, userid } = this.state;
     const newCategory = {
-      title: category.value,
+      title,
+      userid: Number(userid),
     };
-    this.context.addCategory(newCategory);
-    this.props.history.push(`/dashboard`);
+    const postOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCategory),
+    };
+
+    fetch(`${API_BASE_URL}/api/categories`, postOptions)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Something went wrong, please try again later");
+        }
+        return res.json();
+      })
+      .then((category) => {
+        this.context.addCategory(category);
+        this.props.history.push(`/dashboard`);
+      })
+      .catch((err) => {
+        this.setState({
+          error: err.message,
+        });
+      });
   };
 
   updateCategory = (categoryName) => {
     this.setState({
-      category: { value: categoryName, touched: true },
+      title: categoryName,
+      userid: 1,
+      touched: true,
     });
   };
 
   validateCategoryName() {
-    const categoryName = this.state.category.value.trim();
+    const categoryName = this.state.title.trim();
     if (categoryName.length === 0) {
       return "Name is required";
     } else if (categoryName.length < 3) {
@@ -63,11 +93,11 @@ export default class AddCategory extends React.Component {
                 placeholder="category name"
                 name="add-category"
                 id="add-category"
-                value={this.state.category.value}
+                value={this.state.title}
                 onChange={(e) => this.updateCategory(e.target.value)}
               />
             </div>
-            {this.state.category.touched && (
+            {this.state.touched && (
               <ValidationError message={this.validateCategoryName()} />
             )}
           </fieldset>
@@ -76,7 +106,7 @@ export default class AddCategory extends React.Component {
             <button
               type="submit"
               aria-label="save-button"
-              disabled={!this.state.category.touched}
+              disabled={!this.state.touched}
             >
               Save
             </button>

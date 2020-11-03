@@ -9,12 +9,6 @@
   align-items: center;
 }
 
-.App-header {
-  padding-top: 100px;
-  padding-bottom: 10px;
-  border-bottom: solid 2px grey;
-}
-
 .App-main section {
   padding: 40px 5px;
   border-bottom: solid 2px gray;
@@ -36,16 +30,14 @@ footer {
   padding: 1% 0;
 }
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
-
 header {
   padding: 12% 0;
+}
+header.App-header {
+  padding-bottom: 10px;
+  padding-top: 0;
+  border-bottom: solid 2px grey;
+  height: 175px;
 }
 
 main,
@@ -118,10 +110,6 @@ section.sidebar {
   background-color: rgb(11, 90, 57);
   color: white;
   padding: 2px;
-}
-
-.sidebar-wrapper {
-  border: 3px solid grey;
 }
 
 .accordion {

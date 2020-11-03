@@ -1,8 +1,11 @@
 import React from "react";
 
+import { API_TOKEN, API_BASE_URL } from "../config";
 import Context from "../Context";
 
 export default class AddActivity extends React.Component {
+  // remember to remove userid placeholder!!
+
   static contextType = Context;
 
   state = {
@@ -11,6 +14,7 @@ export default class AddActivity extends React.Component {
     timeCompleted: "",
     notes: "",
     categoryId: "",
+    userid: null,
     touched: false,
   };
 
@@ -21,6 +25,7 @@ export default class AddActivity extends React.Component {
       timeCompleted: "",
       notes: "",
       categoryId: "",
+      userid: null,
       touched: false,
     });
   };
@@ -34,18 +39,41 @@ export default class AddActivity extends React.Component {
       notes,
       categoryId,
     } = this.state;
-    const id = title.concat("-", dateCompleted);
+
     const newActivity = {
-      id: id.replaceAll(" ", "-"),
       title,
-      dateCompleted,
-      timeCompleted,
+      datecompleted: dateCompleted,
+      timecompleted: timeCompleted,
       notes,
-      categoryId,
+      categoryid: Number(categoryId),
+      userid: 1,
+    };
+    const postOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newActivity),
     };
 
-    this.context.addActivity(newActivity);
-    this.props.history.push(`/activities/${newActivity.id}`);
+    fetch(`${API_BASE_URL}/api/activities`, postOptions)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Something went wrong, please try again later");
+        }
+        return res.json();
+      })
+      .then((activity) => {
+        this.context.addActivity(activity);
+        this.props.history.push(`/activities/${activity.id}`);
+      })
+      .catch((err) => {
+        this.setState({
+          error: err.message,
+        });
+      });
   };
 
   updateCategory = (categoryId) => {
@@ -84,7 +112,7 @@ export default class AddActivity extends React.Component {
   };
 
   render() {
-    const { categories = [] } = this.context || [];
+    const { categories = [] } = this.context || {};
     return (
       <section>
         <h3>Add an Activity</h3>
@@ -100,6 +128,7 @@ export default class AddActivity extends React.Component {
                 type="text"
                 placeholder="Activity name"
                 id="new-activity"
+                name="activity-title"
                 value={this.state.title}
                 onChange={(e) => this.updateTitle(e.target.value)}
               />
@@ -107,6 +136,7 @@ export default class AddActivity extends React.Component {
               <input
                 type="date"
                 id="new-date"
+                name="activity-date"
                 value={this.state.dateCompleted}
                 onChange={(e) => this.updateDate(e.target.value)}
               />
@@ -114,6 +144,7 @@ export default class AddActivity extends React.Component {
               <select
                 id="time-completed"
                 className="time-options"
+                name="activity-time"
                 value={this.state.timeCompleted}
                 onChange={(e) => this.updateTime(e.target.value)}
               >
@@ -131,10 +162,11 @@ export default class AddActivity extends React.Component {
                 onChange={(e) => this.updateNotes(e.target.value)}
               />
 
-              <label htmlFor="category">Category (optional)</label>
+              <label htmlFor="category">Category</label>
               <select
-                id="category"
+                id="activity-category"
                 className="category-options"
+                name="activity-category"
                 value={this.state.categoryId}
                 onChange={(e) => this.updateCategory(e.target.value)}
               >
@@ -154,7 +186,8 @@ export default class AddActivity extends React.Component {
               aria-label="save-button"
               disabled={
                 (this.state.title.length === 0) |
-                (this.state.dateCompleted.length === 0)
+                (this.state.dateCompleted.length === 0) |
+                (this.state.categoryId.length === 0)
               }
             >
               Save
