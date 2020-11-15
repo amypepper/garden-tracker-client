@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import ActivityList from "../ActivityList/ActivityList";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import Context from "../Context";
+// import TokenService from "../services/token-service";
 
 export default class Dashboard extends React.Component {
   static contextType = Context;
+
   render() {
-    const { categories = [] } = this.context || {};
     return (
       <>
         <div className="flex-wrapper-column sidebar-wrapper dashboard">
@@ -20,8 +21,12 @@ export default class Dashboard extends React.Component {
           <section className="flex-wrapper-column folder-nav accordion">
             <h3 className="folder-nav">Categories</h3>
             <ul className="flex-wrapper-column sidebar">
-              {categories.map((category, i) => (
-                <CategoryItem key={i} {...category} />
+              {this.context.categories.map((category, i) => (
+                <CategoryItem
+                  key={i}
+                  {...category}
+                  history={this.props.history}
+                />
               ))}
             </ul>
           </section>

@@ -1,11 +1,10 @@
 import React from "react";
 
-import { API_TOKEN, API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../config";
 import Context from "../Context";
+import TokenService from "../services/token-service";
 
 export default class AddActivity extends React.Component {
-  // remember to remove userid placeholder!!
-
   static contextType = Context;
 
   state = {
@@ -13,8 +12,7 @@ export default class AddActivity extends React.Component {
     dateCompleted: "",
     timeCompleted: "",
     notes: "",
-    categoryId: "",
-    userid: null,
+    categoryId: null,
     touched: false,
   };
 
@@ -24,7 +22,7 @@ export default class AddActivity extends React.Component {
       dateCompleted: "",
       timeCompleted: "",
       notes: "",
-      categoryId: "",
+      categoryId: null,
       userid: null,
       touched: false,
     });
@@ -45,13 +43,14 @@ export default class AddActivity extends React.Component {
       datecompleted: dateCompleted,
       timecompleted: timeCompleted,
       notes,
-      categoryid: Number(categoryId),
-      userid: 1,
+      categoryid: categoryId,
+      userid: this.context.user.id,
     };
+
     const postOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
+        Authorization: `Bearer ${TokenService.getAuthToken()}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },

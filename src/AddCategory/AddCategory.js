@@ -1,7 +1,8 @@
 import React from "react";
 
-import { API_BASE_URL, API_TOKEN } from "../config";
+import { API_BASE_URL } from "../config";
 import Context from "../Context";
+import TokenService from "../services/token-service";
 import ValidationError from "../ValidationError";
 
 export default class AddCategory extends React.Component {
@@ -26,12 +27,12 @@ export default class AddCategory extends React.Component {
     const { title, userid } = this.state;
     const newCategory = {
       title,
-      userid: Number(userid),
+      userid,
     };
     const postOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
+        Authorization: `Bearer ${TokenService.getAuthToken()}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -59,7 +60,7 @@ export default class AddCategory extends React.Component {
   updateCategory = (categoryName) => {
     this.setState({
       title: categoryName,
-      userid: 1,
+      userid: this.context.user.id,
       touched: true,
     });
   };

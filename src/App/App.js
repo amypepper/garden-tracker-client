@@ -1,26 +1,29 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
+import ActivityItem from "../ActivityItem/ActivityItem";
+import ActivityList from "../ActivityList/ActivityList";
 import AddActivity from "../AddActivity/AddActivity";
 import AddCategory from "../AddCategory/AddCategory";
 import "./App.css";
+import CategoryItem from "../CategoryItem/CategoryItem";
 import Context from "../Context";
 import Dashboard from "../Dashboard/Dashboard";
-import data from "../dummy-data";
 import Landing from "../Landing/Landing";
-import Navbar from "../Navbar/Navbar";
-import Signup from "../Signup/Signup";
 import Login from "../Login/Login";
-import CategoryItem from "../CategoryItem/CategoryItem";
-import ActivityList from "../ActivityList/ActivityList";
-import ActivityItem from "../ActivityItem/ActivityItem";
+import Navbar from "../Navbar/Navbar";
+import PrivateRoute from "../Utils/PrivateRoute";
+import PublicOnlyRoute from "../Utils/PublicOnlyRoute";
+import Signup from "../Signup/Signup";
+import TokenService from "../services/token-service";
 
-const { API_TOKEN, API_BASE_URL } = require("../config");
+const { API_BASE_URL } = require("../config");
 
 export default class App extends React.Component {
   state = {
-    activities: [...data.activities],
-    categories: [...data.categories],
+    user: {},
+    activities: [],
+    categories: [],
 
     addActivity: (newActivity) => {
       return this.setState({
@@ -46,34 +49,67 @@ export default class App extends React.Component {
         ),
       });
     },
+    filterCategories: (userCategories) => {
+      return this.setState({ categories: userCategories });
+    },
+    loginUser: (user) => {
+      return this.setState({ user });
+    },
   };
 
   componentDidMount() {
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
-        Accept: "application/json",
-      },
-    };
-    fetch(`${API_BASE_URL}/api/activities`, options)
-      .then((res) => {
-        if (!res.ok) {
-          return Promise.reject(res.statusText);
-        }
-        return res.json();
-      })
-      .then((activities) => this.setState({ activities }));
+    // Step 1 - check if the user has a token
+    // Step 2 - if they do, make the api call to the /api/users to get their info
+    // Step 3 - put that info in state
+    // Step 4 - make the fetch call for activities
+    // - else do nothing
 
-    fetch(`${API_BASE_URL}/api/categories`, options)
-      .then((res) => {
-        if (!res.ok) {
-          return Promise.reject(res.statusText);
-        }
-        return res.json();
-      })
+    /*if(TokenService.hasAuthToken()){
+      fetch().then(res=>res.json()).then(user=>this.setState({user}, ()=> {
+        fetch().then(res=>res.json()).then(activities=>this.setState({activites}))
+      }))
+    }*/
 
-      .then((categories) => this.setState({ categories }));
+    if (TokenService.hasAuthToken()) {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${TokenService.getAuthToken()}`,
+          Accept: "application/json",
+        },
+      };
+
+      fetch(`${API_BASE_URL}/api/users`, options)
+        .then((res) => res.json())
+        .then((user) => this.setState({ user }, () => {}));
+
+      // send the authToken to an endpoint in the backend that is protected
+      // by requireAuth, and uses req.user.id to filter the activites
+      // all fetch calls after login should just send authToken, the BE should determine who the user is, not the FE
+      fetch(`${API_BASE_URL}/api/activities`, options)
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(res.statusText);
+          }
+          return res.json();
+        })
+        .then((activities) => {
+          this.setState({ activities });
+        })
+        .catch((err) => console.error(err));
+
+      fetch(`${API_BASE_URL}/api/categories`, options)
+        .then((res) => {
+          if (!res.ok) {
+            return Promise.reject(res.statusText);
+          }
+          return res.json();
+        })
+        .then((categories) => {
+          this.setState({ categories });
+        })
+        .catch((err) => console.error(err));
+    }
   }
 
   render() {
@@ -85,13 +121,13 @@ export default class App extends React.Component {
           </header>
 
           <main className="App-main">
-            <Route exact path="/" component={Landing} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={Dashboard} />
+            <PublicOnlyRoute exact path="/" component={Landing} />
+            <PublicOnlyRoute path="/signup" component={Signup} />
+            <PublicOnlyRoute path="/login" component={Login} />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
 
             {/********************* CATEGORY PAGES **************************/}
-            <Route
+            <PrivateRoute
               path="/categories/:categoryid"
               render={(rProps) => {
                 const selectedCategory =
@@ -108,7 +144,7 @@ export default class App extends React.Component {
               }}
             />
 
-            <Route path="/add/categories" component={AddCategory} />
+            <PrivateRoute path="/add/categories" component={AddCategory} />
 
             {/* <Route path="/edit/categories/c2">
               <h3>Edit Category</h3>
@@ -135,7 +171,7 @@ export default class App extends React.Component {
 
             {/********************* ACTIVITY PAGES **************************/}
 
-            <Route
+            <PrivateRoute
               path="/activities/:activityid"
               render={(rProps) => {
                 const selectedActivity =
@@ -151,7 +187,11 @@ export default class App extends React.Component {
               }}
             />
 
-            <Route exact path="/add/activities" component={AddActivity} />
+            <PrivateRoute
+              exact
+              path="/add/activities"
+              component={AddActivity}
+            />
 
             {/* <Route path="/edit/activities/4">
               <section>

@@ -1,7 +1,8 @@
 import React from "react";
 
-import { API_TOKEN, API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../config";
 import Context from "../Context";
+import TokenService from "../services/token-service";
 
 export default class DeleteButton extends React.Component {
   static contextType = Context;
@@ -17,7 +18,7 @@ export default class DeleteButton extends React.Component {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
+        Authorization: `Bearer ${TokenService.getAuthToken()}`,
       },
     };
 
@@ -26,7 +27,6 @@ export default class DeleteButton extends React.Component {
         if (!res.ok) {
           throw new Error("Something went wrong, please try again later");
         }
-        return res.json();
       })
       .then((res) => {
         if (this.props.activity) {

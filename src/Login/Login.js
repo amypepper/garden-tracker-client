@@ -1,22 +1,47 @@
 import React from "react";
 import AuthAPIService from "../services/auth-api-service";
 import TokenService from "../services/token-service";
-// import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../config";
 import "./Login.css";
+import Context from "../Context";
 
 export default class Login extends React.Component {
+  static contextType = Context;
+
   state = {
     error: null,
   };
+
   handleLogin = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
     this.setState({ error: null });
     const user = { email: email.value, password: password.value };
+
     AuthAPIService.loginUser(user)
       .then((loginResponse) => {
         TokenService.saveAuthToken(loginResponse.authToken);
         this.props.history.push("/dashboard");
+      })
+      .then((res) => {
+        const options = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${TokenService.getAuthToken()}`,
+            Accept: "application/json",
+          },
+        };
+        fetch(`${API_BASE_URL}/api/users`, options)
+          .then((res) => {
+            if (!res.ok) {
+              return Promise.reject(res.statusText);
+            }
+            return res.json();
+          })
+          .then((user) => this.context.loginUser(user))
+          .catch((res) => {
+            this.setState({ error: res.error });
+          });
       })
       .catch((res) => {
         this.setState({ error: res.error });

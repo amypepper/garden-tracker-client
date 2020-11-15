@@ -7,6 +7,9 @@ export default {
   hasAuthToken() {
     return window.localStorage.getItem(config.TOKEN_KEY);
   },
+  getAuthToken() {
+    return window.localStorage.getItem(config.TOKEN_KEY);
+  },
   clearAuthToken() {
     window.localStorage.removeItem(config.TOKEN_KEY);
   },

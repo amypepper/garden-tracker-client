@@ -11,6 +11,10 @@ export default class Signup extends React.Component {
     e.preventDefault();
     const { email, password, confirmPassword } = e.target;
     this.setState({ error: null });
+
+    if (password.value !== confirmPassword.value) {
+      return this.setState({ error: "Passwords do not match" });
+    }
     AuthAPIService.postUser({
       email: email.value,
       password: password.value,
@@ -22,6 +26,7 @@ export default class Signup extends React.Component {
         this.setState({ error: res.error });
       });
   };
+
   render() {
     return (
       <section>
