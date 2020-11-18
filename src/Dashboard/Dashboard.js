@@ -10,6 +10,7 @@ export default class Dashboard extends React.Component {
   static contextType = Context;
 
   render() {
+    const { categories = [] } = this.context || {};
     return (
       <>
         <div className="flex-wrapper-column sidebar-wrapper dashboard">
@@ -21,12 +22,14 @@ export default class Dashboard extends React.Component {
           <section className="flex-wrapper-column folder-nav accordion">
             <h3 className="folder-nav">Categories</h3>
             <ul className="flex-wrapper-column sidebar">
-              {this.context.categories.map((category, i) => (
-                <CategoryItem
-                  key={i}
-                  {...category}
-                  history={this.props.history}
-                />
+              {categories.map((category, i) => (
+                <Link key={i} to={`/categories/${category.id}`}>
+                  <CategoryItem
+                    key={i}
+                    {...category}
+                    history={this.props.history}
+                  />
+                </Link>
               ))}
             </ul>
           </section>

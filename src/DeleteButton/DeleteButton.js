@@ -18,7 +18,7 @@ export default class DeleteButton extends React.Component {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${TokenService.getAuthToken()}`,
+        Authorization: `Bearer ${TokenService.hasAuthToken()}`,
       },
     };
 

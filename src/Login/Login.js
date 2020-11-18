@@ -27,7 +27,7 @@ export default class Login extends React.Component {
         const options = {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${TokenService.getAuthToken()}`,
+            Authorization: `Bearer ${TokenService.hasAuthToken()}`,
             Accept: "application/json",
           },
         };

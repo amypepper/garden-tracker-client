@@ -74,43 +74,45 @@ export default class App extends React.Component {
       const options = {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${TokenService.getAuthToken()}`,
+          Authorization: `Bearer ${TokenService.hasAuthToken()}`,
           Accept: "application/json",
         },
       };
 
       fetch(`${API_BASE_URL}/api/users`, options)
         .then((res) => res.json())
-        .then((user) => this.setState({ user }, () => {}));
+        .then((user) =>
+          this.setState({ user }, () => {
+            fetch(`${API_BASE_URL}/api/categories`, options)
+              .then((res) => {
+                if (!res.ok) {
+                  return Promise.reject(res.statusText);
+                }
+                return res.json();
+              })
+              .then((categories) => {
+                this.setState({ categories }, () => {
+                  fetch(`${API_BASE_URL}/api/activities`, options)
+                    .then((res) => {
+                      if (!res.ok) {
+                        return Promise.reject(res.statusText);
+                      }
+                      return res.json();
+                    })
+                    .then((activities) => this.setState({ activities }))
 
-      // send the authToken to an endpoint in the backend that is protected
-      // by requireAuth, and uses req.user.id to filter the activites
-      // all fetch calls after login should just send authToken, the BE should determine who the user is, not the FE
-      fetch(`${API_BASE_URL}/api/activities`, options)
-        .then((res) => {
-          if (!res.ok) {
-            return Promise.reject(res.statusText);
-          }
-          return res.json();
-        })
-        .then((activities) => {
-          this.setState({ activities });
-        })
-        .catch((err) => console.error(err));
-
-      fetch(`${API_BASE_URL}/api/categories`, options)
-        .then((res) => {
-          if (!res.ok) {
-            return Promise.reject(res.statusText);
-          }
-          return res.json();
-        })
-        .then((categories) => {
-          this.setState({ categories });
-        })
+                    .catch((err) => console.error(err));
+                });
+              });
+          })
+        )
         .catch((err) => console.error(err));
     }
   }
+
+  // send the authToken to an endpoint in the backend that is protected
+  // by requireAuth, and uses req.user.id to filter the activites
+  // all fetch calls after login should just send authToken, the BE should determine who the user is, not the FE
 
   render() {
     return (
@@ -121,7 +123,7 @@ export default class App extends React.Component {
           </header>
 
           <main className="App-main">
-            <PublicOnlyRoute exact path="/" component={Landing} />
+            <Route exact path="/" component={Landing} />
             <PublicOnlyRoute path="/signup" component={Signup} />
             <PublicOnlyRoute path="/login" component={Login} />
             <PrivateRoute path="/dashboard" component={Dashboard} />
@@ -129,17 +131,17 @@ export default class App extends React.Component {
             {/********************* CATEGORY PAGES **************************/}
             <PrivateRoute
               path="/categories/:categoryid"
-              render={(rProps) => {
+              component={(rProps) => {
                 const selectedCategory =
                   this.state.categories.find(
                     (category) =>
                       Number(rProps.match.params.categoryid) === category.id
-                  ) || [];
+                  ) || {};
                 return (
-                  <>
+                  <div>
                     <CategoryItem {...rProps} {...selectedCategory} />
                     <ActivityList {...rProps} />
-                  </>
+                  </div>
                 );
               }}
             />
@@ -171,18 +173,18 @@ export default class App extends React.Component {
 
             {/********************* ACTIVITY PAGES **************************/}
 
-            <PrivateRoute
+            <Route
               path="/activities/:activityid"
               render={(rProps) => {
                 const selectedActivity =
                   this.state.activities.find(
                     (activity) =>
                       activity.id === Number(rProps.match.params.activityid)
-                  ) || [];
+                  ) || {};
                 if (selectedActivity) {
                   return <ActivityItem {...selectedActivity} {...rProps} />;
                 } else {
-                  return null;
+                  return {};
                 }
               }}
             />

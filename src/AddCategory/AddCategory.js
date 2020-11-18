@@ -32,7 +32,7 @@ export default class AddCategory extends React.Component {
     const postOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${TokenService.getAuthToken()}`,
+        Authorization: `Bearer ${TokenService.hasAuthToken()}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },

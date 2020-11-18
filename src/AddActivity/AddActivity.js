@@ -12,7 +12,7 @@ export default class AddActivity extends React.Component {
     dateCompleted: "",
     timeCompleted: "",
     notes: "",
-    categoryId: null,
+    categoryId: "",
     touched: false,
   };
 
@@ -50,7 +50,7 @@ export default class AddActivity extends React.Component {
     const postOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${TokenService.getAuthToken()}`,
+        Authorization: `Bearer ${TokenService.hasAuthToken()}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
