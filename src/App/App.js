@@ -58,12 +58,6 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    // Step 1 - check if the user has a token
-    // Step 2 - if they do, make the api call to the /api/users to get their info
-    // Step 3 - put that info in state
-    // Step 4 - make the fetch call for activities
-    // - else do nothing
-
     /*if(TokenService.hasAuthToken()){
       fetch().then(res=>res.json()).then(user=>this.setState({user}, ()=> {
         fetch().then(res=>res.json()).then(activities=>this.setState({activites}))
@@ -107,12 +101,10 @@ export default class App extends React.Component {
           })
         )
         .catch((err) => console.error(err));
+    } else {
+      return null;
     }
   }
-
-  // send the authToken to an endpoint in the backend that is protected
-  // by requireAuth, and uses req.user.id to filter the activites
-  // all fetch calls after login should just send authToken, the BE should determine who the user is, not the FE
 
   render() {
     return (
