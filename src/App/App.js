@@ -58,12 +58,6 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    /*if(TokenService.hasAuthToken()){
-      fetch().then(res=>res.json()).then(user=>this.setState({user}, ()=> {
-        fetch().then(res=>res.json()).then(activities=>this.setState({activites}))
-      }))
-    }*/
-
     if (TokenService.hasAuthToken()) {
       const options = {
         method: "GET",
@@ -140,29 +134,6 @@ export default class App extends React.Component {
 
             <PrivateRoute path="/add/categories" component={AddCategory} />
 
-            {/* <Route path="/edit/categories/c2">
-              <h3>Edit Category</h3>
-              <form className="edit-category" aria-label="edit-category">
-                <fieldset className="category-form">
-                  <div className="flex-wrapper-column">
-                    <label htmlFor="edit-category" className="edit-category">
-                      Category Name
-                    </label>
-                    <input type="text" value="Feeding" id="edit-category" />
-                  </div>
-                </fieldset>
-  
-                <fieldset>
-                  <button type="submit" aria-label="save">
-                    Save
-                  </button>
-                  <button type="reset" aria-label="cancel">
-                    Cancel
-                  </button>
-                </fieldset>
-              </form>
-            </Route> */}
-
             {/********************* ACTIVITY PAGES **************************/}
 
             <Route
@@ -186,48 +157,6 @@ export default class App extends React.Component {
               path="/add/activities"
               component={AddActivity}
             />
-
-            {/* <Route path="/edit/activities/4">
-              <section>
-                <h3>Edit Activity</h3>
-                <form className="edit-activity" aria-label="edit-activity">
-                  <fieldset className="activity-form">
-                    <div className="flex-wrapper-column">
-                      <label htmlFor="edit-activity">Activity Name</label>
-                      <input
-                        type="text"
-                        id="edit-activity"
-                        value="watered lavender"
-                      />
-                      <label htmlFor="edit-date">Date</label>
-                      <input type="date" id="edit-date" value="2020-09-30" />
-                      <label htmlFor="edit-note">Notes (optional)</label>
-                      <textarea id="edit-note" cols="30" rows="10"></textarea>
-  
-                      <label htmlFor="category">Category</label>
-                      <select
-                        id="category"
-                        className="category-options"
-                        value="Watering"
-                      >
-                        <option value="Watering">Watering</option>
-                        <option value="Feeding">Feeding</option>
-                        <option value="Pruning">Weeding</option>
-                      </select>
-                    </div>
-                  </fieldset>
-  
-                  <fieldset>
-                    <button type="submit" aria-label="save">
-                      Save
-                    </button>
-                    <button type="reset" aria-label="cancel">
-                      Cancel
-                    </button>
-                  </fieldset>
-                </form>
-              </section>
-            </Route> */}
           </main>
 
           {/********************* FOOTER **************************/}

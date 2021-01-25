@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ActivityList from "../ActivityList/ActivityList";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import Context from "../Context";
-// import TokenService from "../services/token-service";
 
 export default class Dashboard extends React.Component {
   static contextType = Context;
