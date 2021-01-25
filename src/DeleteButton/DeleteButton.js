@@ -9,7 +9,7 @@ export default class DeleteButton extends React.Component {
 
   handleDelete = (e) => {
     e.preventDefault();
-    console.log(this.props);
+
     const id = this.props.activity
       ? this.props.activity.id
       : this.props.category.id;
