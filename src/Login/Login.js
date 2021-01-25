@@ -14,9 +14,9 @@ export default class Login extends React.Component {
 
   handleLogin = (e) => {
     e.preventDefault();
-    const { email, password } = e.target;
+
     this.setState({ error: null });
-    const user = { email: email.value, password: password.value };
+    const user = { email: this.state.email, password: this.state.password };
 
     AuthAPIService.loginUser(user)
       .then((loginResponse) => {
@@ -60,29 +60,29 @@ export default class Login extends React.Component {
           {this.state.error && <p className="error">{this.state.error}</p>}
           <fieldset aria-label="email">
             <div className="flex-wrapper-column">
-              <label className="login-email" htmlFor="new-email">
+              <label className="login-email" htmlFor="login-email">
                 email
               </label>
               <input
                 type="email"
                 placeholder="email"
-                id="new-email"
-                name="email"
-                onChange={(e) => console.log(e)}
+                id="login-email"
+                name="login-email"
+                onChange={(e) => this.setState({ email: e.target.value })}
               />
             </div>
           </fieldset>
           <fieldset aria-label="password">
             <div className="flex-wrapper-column">
-              <label htmlFor="new-password" className="login-pw">
+              <label htmlFor="login-password" className="login-password">
                 password
               </label>
               <input
-                id="new-password"
+                id="login-password"
                 type="password"
-                placeholder="new password"
-                name="password"
-                onChange={(e) => console.log(e)}
+                placeholder="password"
+                name="login-password"
+                onChange={(e) => this.setState({ password: e.target.value })}
               />
             </div>
           </fieldset>
