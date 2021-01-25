@@ -41,7 +41,7 @@ export default class ActivityItem extends React.Component {
 
         <DeleteButton
           activity={{ ...this.props }}
-          history={{ ...this.props.history }}
+          history={this.props.history}
         />
       </li>
     );

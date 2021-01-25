@@ -9,6 +9,7 @@ export default class DeleteButton extends React.Component {
 
   handleDelete = (e) => {
     e.preventDefault();
+    console.log(this.props);
     const id = this.props.activity
       ? this.props.activity.id
       : this.props.category.id;
@@ -31,7 +32,7 @@ export default class DeleteButton extends React.Component {
       .then((res) => {
         if (this.props.activity) {
           this.context.deleteActivity(id);
-          this.props.history.push("/activities");
+          this.props.history.push("/dashboard");
         } else {
           this.context.deleteCategory(id);
           this.props.history.push("/dashboard");
