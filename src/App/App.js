@@ -101,7 +101,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(API_BASE_URL);
     return (
       <Context.Provider value={this.state}>
         <div className="App">
