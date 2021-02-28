@@ -3,6 +3,9 @@ import React from "react";
 import { API_BASE_URL } from "../config";
 import Context from "../Context";
 import TokenService from "../services/token-service";
+import ValidationError from "../ValidationError/ValidationError";
+
+import "./AddActivity.css";
 
 export default class AddActivity extends React.Component {
   static contextType = Context;
@@ -110,6 +113,26 @@ export default class AddActivity extends React.Component {
     });
   };
 
+  validateActivityName() {
+    const activityName = this.state.title.trim();
+    if (activityName.length === 0) {
+      return "Name is required";
+    }
+  }
+
+  validateCategory() {
+    const category = this.state.categoryId;
+    if (!category) {
+      return "You must select a category";
+    }
+  }
+
+  validateDate() {
+    if (!this.state.dateCompleted) {
+      return "A date is required";
+    }
+  }
+
   render() {
     const { categories = [] } = this.context || {};
     return (
@@ -123,6 +146,9 @@ export default class AddActivity extends React.Component {
           <fieldset className="new-activity">
             <div className="flex-wrapper-column">
               <label htmlFor="new-activity">Activity Name</label>
+              {this.state.touched && (
+                <ValidationError message={this.validateActivityName()} />
+              )}
               <input
                 type="text"
                 placeholder="Activity name"
@@ -131,7 +157,11 @@ export default class AddActivity extends React.Component {
                 value={this.state.title}
                 onChange={(e) => this.updateTitle(e.target.value)}
               />
+
               <label htmlFor="new-date">Date Completed</label>
+              {this.state.touched && (
+                <ValidationError message={this.validateDate()} />
+              )}
               <input
                 type="date"
                 id="new-date"
@@ -142,7 +172,7 @@ export default class AddActivity extends React.Component {
               <label htmlFor="time-completed">Time of Day (optional)</label>
               <select
                 id="time-completed"
-                className="time-options"
+                className="input"
                 name="activity-time"
                 value={this.state.timeCompleted}
                 onChange={(e) => this.updateTime(e.target.value)}
@@ -155,6 +185,7 @@ export default class AddActivity extends React.Component {
               <label htmlFor="new-note">Notes (optional)</label>
               <textarea
                 id="new-note"
+                className="input"
                 cols="30"
                 rows="10"
                 value={this.state.notes}
@@ -162,9 +193,12 @@ export default class AddActivity extends React.Component {
               />
 
               <label htmlFor="category">Category</label>
+              {this.state.touched && (
+                <ValidationError message={this.validateCategory()} />
+              )}
               <select
                 id="activity-category"
-                className="category-options"
+                className="category-options input"
                 name="activity-category"
                 value={this.state.categoryId}
                 onChange={(e) => this.updateCategory(e.target.value)}

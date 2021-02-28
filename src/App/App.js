@@ -124,10 +124,10 @@ export default class App extends React.Component {
                       Number(rProps.match.params.categoryid) === category.id
                   ) || {};
                 return (
-                  <div>
+                  <>
                     <CategoryItem {...rProps} {...selectedCategory} />
                     <ActivityList {...rProps} />
-                  </div>
+                  </>
                 );
               }}
             />

@@ -9,7 +9,7 @@ export default class ActivityList extends React.Component {
 
   getActivities = () => {
     const { activities = [] } = this.context || [];
-    if (this.props.match) {
+    if (this.props.match && this.props.match.path !== "/dashboard") {
       const filteredActivities =
         activities.filter(
           (activity) =>
@@ -33,6 +33,7 @@ export default class ActivityList extends React.Component {
     }
   };
   render() {
+    console.log(this.props);
     return <ul className="ActivityList">{this.getActivities()}</ul>;
   }
 }

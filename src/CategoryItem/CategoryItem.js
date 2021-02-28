@@ -1,18 +1,14 @@
 import React from "react";
 
+import "./CategoryItem.css";
 import DeleteButton from "../DeleteButton/DeleteButton";
 
-export default class CategoryItem extends React.Component {
-  render() {
-    return (
-      <li>
-        <h4>{this.props.title}</h4>
+export default function CategoryItem(props) {
+  return (
+    <>
+      <h4 className="category-title">{props.title}</h4>
 
-        <DeleteButton
-          category={{ ...this.props }}
-          history={this.props.history}
-        />
-      </li>
-    );
-  }
+      <DeleteButton category={{ ...props }} history={props.history} />
+    </>
+  );
 }

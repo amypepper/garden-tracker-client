@@ -3,7 +3,7 @@ import React from "react";
 import { API_BASE_URL } from "../config";
 import Context from "../Context";
 import TokenService from "../services/token-service";
-import ValidationError from "../ValidationError";
+import ValidationError from "../ValidationError/ValidationError";
 
 export default class AddCategory extends React.Component {
   static contextType = Context;
@@ -86,6 +86,9 @@ export default class AddCategory extends React.Component {
         >
           <fieldset className="category-form">
             <div className="flex-wrapper-column">
+              {this.state.touched && (
+                <ValidationError message={this.validateCategoryName()} />
+              )}
               <label htmlFor="add-category" className="add-category">
                 Category Name
               </label>
@@ -98,16 +101,13 @@ export default class AddCategory extends React.Component {
                 onChange={(e) => this.updateCategory(e.target.value)}
               />
             </div>
-            {this.state.touched && (
-              <ValidationError message={this.validateCategoryName()} />
-            )}
           </fieldset>
 
           <fieldset>
             <button
               type="submit"
               aria-label="save-button"
-              disabled={!this.state.touched}
+              disabled={this.state.title.length < 3}
             >
               Save
             </button>

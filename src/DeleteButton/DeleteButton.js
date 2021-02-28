@@ -32,21 +32,16 @@ export default class DeleteButton extends React.Component {
       .then((res) => {
         if (this.props.activity) {
           this.context.deleteActivity(id);
-          this.props.history.push("/dashboard");
         } else {
           this.context.deleteCategory(id);
-          this.props.history.push("/dashboard");
         }
+        this.props.history.push("/dashboard");
       })
       .catch((error) => {
         console.error(error);
       });
   };
   render() {
-    return (
-      <div className="DeleteButton">
-        <button onClick={(e) => this.handleDelete(e)}>Delete</button>
-      </div>
-    );
+    return <button onClick={(e) => this.handleDelete(e)}>Delete</button>;
   }
 }

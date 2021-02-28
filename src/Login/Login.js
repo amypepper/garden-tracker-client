@@ -21,7 +21,6 @@ export default class Login extends React.Component {
     AuthAPIService.loginUser(user)
       .then((loginResponse) => {
         TokenService.saveAuthToken(loginResponse.authToken);
-        this.props.history.push("/dashboard");
       })
       .then((res) => {
         const options = {
@@ -38,7 +37,10 @@ export default class Login extends React.Component {
             }
             return res.json();
           })
-          .then((user) => this.context.loginUser(user))
+          .then((user) => {
+            this.context.loginUser(user);
+            this.props.history.push("/dashboard");
+          })
           .catch((res) => {
             this.setState({ error: res.error });
           });

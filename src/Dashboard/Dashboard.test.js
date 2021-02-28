@@ -12,5 +12,5 @@ it("renders without crashing", () => {
     </Router>,
     div
   );
-  ReactDOM.unmountComponentAtNode(div); //cleanup
+  ReactDOM.unmountComponentAtNode(div);
 });

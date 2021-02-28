@@ -36,7 +36,10 @@ export default class ActivityItem extends React.Component {
           <span className="bold-span">Notes</span>: {this.props.notes}
         </p>
         <p>
-          <span className="bold-span">Category</span>: {this.getCategoryName()}
+          <span className="bold-span">Category</span>:{" "}
+          <Link to={`/categories/${this.props.categoryid}`}>
+            {this.getCategoryName()}
+          </Link>
         </p>
 
         <DeleteButton
