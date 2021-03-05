@@ -43,17 +43,27 @@ export default class App extends React.Component {
       });
     },
     deleteCategory: (categoryId) => {
-      return this.setState({
-        categories: this.state.categories.filter(
-          (category) => category.id !== categoryId
-        ),
+      return this.setState(
+        {
+          categories: this.state.categories.filter(
+            (category) => category.id !== categoryId
+          ),
+        },
+        () =>
+          this.setState({
+            activities: this.state.activities.filter(
+              (activity) => activity.categoryid !== categoryId
+            ),
+          })
+      );
+    },
+    getDataAfterLogin: (categories, activities) => {
+      return this.setState({ categories }, () => {
+        return this.setState({ activities });
       });
     },
-    filterCategories: (userCategories) => {
-      return this.setState({ categories: userCategories });
-    },
     loginUser: (user) => {
-      return this.setState({ user });
+      this.setState({ user });
     },
   };
 
@@ -136,9 +146,9 @@ export default class App extends React.Component {
 
             {/********************* ACTIVITY PAGES **************************/}
 
-            <Route
+            <PrivateRoute
               path="/activities/:activityid"
-              render={(rProps) => {
+              component={(rProps) => {
                 const selectedActivity =
                   this.state.activities.find(
                     (activity) =>

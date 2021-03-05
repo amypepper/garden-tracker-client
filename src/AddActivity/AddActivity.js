@@ -17,6 +17,7 @@ export default class AddActivity extends React.Component {
     notes: "",
     categoryId: "",
     touched: false,
+    loading: false,
   };
 
   clearValues = () => {
@@ -25,14 +26,14 @@ export default class AddActivity extends React.Component {
       dateCompleted: "",
       timeCompleted: "",
       notes: "",
-      categoryId: null,
-      userid: null,
+      categoryId: "",
       touched: false,
     });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     const {
       title,
       dateCompleted,
@@ -69,11 +70,12 @@ export default class AddActivity extends React.Component {
       })
       .then((activity) => {
         this.context.addActivity(activity);
-        this.props.history.push(`/activities/${activity.id}`);
+        this.props.history.push(`/dashboard`);
       })
       .catch((err) => {
         this.setState({
           error: err.message,
+          loading: false,
         });
       });
   };
@@ -218,12 +220,17 @@ export default class AddActivity extends React.Component {
               type="submit"
               aria-label="save-button"
               disabled={
-                (this.state.title.length === 0) |
-                (this.state.dateCompleted.length === 0) |
-                (this.state.categoryId.length === 0)
+                this.state.title.length === 0 ||
+                this.state.dateCompleted.length === 0 ||
+                this.state.categoryId.length === 0 ||
+                this.state.loading
               }
+              onClick={(e) => {
+                this.setState({ loading: true });
+                this.handleSubmit(e);
+              }}
             >
-              Save
+              {this.state.loading ? "Loading" : "Save"}
             </button>
             <button
               type="reset"

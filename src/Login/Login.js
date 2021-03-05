@@ -40,9 +40,6 @@ export default class Login extends React.Component {
           .then((user) => {
             this.context.loginUser(user);
             this.props.history.push("/dashboard");
-          })
-          .catch((res) => {
-            this.setState({ error: res.error });
           });
       })
       .catch((res) => {
@@ -59,7 +56,13 @@ export default class Login extends React.Component {
           aria-label="login-form"
           onSubmit={this.handleLogin}
         >
-          {this.state.error && <p className="error">{this.state.error}</p>}
+          {this.state.error && (
+            <p className="error">
+              {this.state.error.code === "ECONNREFUSED"
+                ? `Sorry, we're having server issues. Please try again later.`
+                : this.state.error}
+            </p>
+          )}
           <fieldset aria-label="email">
             <div className="flex-wrapper-column">
               <label className="login-email" htmlFor="login-email">

@@ -32,8 +32,8 @@ export default class ActivityList extends React.Component {
       ));
     }
   };
+
   render() {
-    console.log(this.props);
     return <ul className="ActivityList">{this.getActivities()}</ul>;
   }
 }
